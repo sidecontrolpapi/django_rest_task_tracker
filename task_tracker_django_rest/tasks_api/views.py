@@ -1,4 +1,3 @@
-from rest_framework import serializers
 from .models import Task
 from .serializers import TaskSerializer
 from django.shortcuts import render
@@ -22,3 +21,33 @@ class TasksApi(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TaskDetail(APIView):
+
+    def get_object(self, id):
+        try:
+            task = Task.objects.get(id=id)
+           
+        except Task.DoesNotExist(): return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        return task
+    
+    def get(self, request, id):
+        task = self.get_object(id)
+        serializer = TaskSerializer(task)
+        return Response(serializer.data)
+    
+    def put(self, request, id):
+        task = self.get_object(id)
+        serialized = TaskSerializer(task, data=request.data)
+        if serialized.is_valid():
+            serialized.save()
+            return Response(serialized.data)
+        return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, id):
+        task = self.get_object(id)
+        task.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
+
+
