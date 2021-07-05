@@ -1,1 +1,1 @@
-web: gunicorn locallibrary.wsgi --log-file -
+web: gunicorn task_tracker_django_rest.wsgi --log-file -
