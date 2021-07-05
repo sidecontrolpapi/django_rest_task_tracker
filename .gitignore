@@ -3,7 +3,7 @@
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
-.env
+env/
 
 *.log
 *.pot
