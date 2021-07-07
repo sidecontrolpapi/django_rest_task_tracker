@@ -1,1 +1,1 @@
-web: gunicorn task_tracker_django_rest.wsgi --log-file -
+web: gunicorn django_rest_task_tracker.wsgi --log-file -
